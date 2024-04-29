@@ -3,7 +3,9 @@
 
 SDL_Window* window = nullptr;
 SDL_Renderer* renderer = nullptr;
-SDL_Rect rectangle;
+SDL_Rect player1;
+SDL_Rect player2;
+SDL_Rect ball;
 
 const int SCREEN_WIDTH = 960;
 const int SCREEN_HEIGHT = 544;
@@ -31,20 +33,20 @@ void update() {
 
     const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 
-    if (currentKeyStates[SDL_SCANCODE_W]) {
-        rectangle.y -= 10;
+    if (player1.y > 0 && currentKeyStates[SDL_SCANCODE_W]) {
+        player1.y -= 10;
     }
 
-    else if (currentKeyStates[SDL_SCANCODE_S]) {
-        rectangle.y += 10;
+    else if (player1.y < SCREEN_HEIGHT - 64 && currentKeyStates[SDL_SCANCODE_S]) {
+        player1.y += 10;
     }
 
-    else if (currentKeyStates[SDL_SCANCODE_A]) {
-        rectangle.x -= 10;
+    if (player2.y > 0 && currentKeyStates[SDL_SCANCODE_UP]) {
+        player2.y -= 10;
     }
 
-    else if (currentKeyStates[SDL_SCANCODE_D]) {
-        rectangle.x += 10;
+    else if (player2.y < SCREEN_HEIGHT - 64 && currentKeyStates[SDL_SCANCODE_DOWN]) {
+        player2.y += 10;
     }
 }
 
@@ -58,7 +60,9 @@ void render() {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
     // Render the rectangle
-    SDL_RenderFillRect(renderer, &rectangle);
+    SDL_RenderFillRect(renderer, &player1);
+    SDL_RenderFillRect(renderer, &ball);
+    SDL_RenderFillRect(renderer, &player2);
 
     // Present the renderer
     SDL_RenderPresent(renderer);
@@ -98,12 +102,20 @@ int main() {
         return 1;
     }
 
-    rectangle.x = SCREEN_WIDTH / 2 - 16;
-    rectangle.y = SCREEN_HEIGHT / 2 - 16;
-    rectangle.w = 32;
-    rectangle.h = 32;
+    player1.x = 16;
+    player1.y = SCREEN_HEIGHT / 2 - 64;
+    player1.w = 16;
+    player1.h = 64;
 
-    // Main loop
+    player2.x = SCREEN_WIDTH - 32;
+    player2.y = SCREEN_HEIGHT / 2 - 64;
+    player2.w = 16;
+    player2.h = 64;
+
+    ball.x = SCREEN_WIDTH / 2 - 32;
+    ball.y = SCREEN_HEIGHT / 2 - 32;
+    ball.w = 32;
+    ball.h = 32;
 
     while (true) {
         
