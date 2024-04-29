@@ -7,6 +7,9 @@ SDL_Rect player1;
 SDL_Rect player2;
 SDL_Rect ball;
 
+int ballVelocityX = 6;
+int ballVelocityY = 6;
+
 const int SCREEN_WIDTH = 960;
 const int SCREEN_HEIGHT = 544;
 const int FRAME_RATE = 60; // Desired frame rate (frames per second)
@@ -28,6 +31,12 @@ void handleEvents() {
     }
 }
 
+bool hasCollision(SDL_Rect player, SDL_Rect ball) {
+
+    return player.x < ball.x + ball.w && player.x + player.w > ball.x &&
+            player.y < ball.y + ball.h && player.y + player.h > ball.y;
+} 
+
 // Function to update rectangle movement.
 void update() {
 
@@ -45,9 +54,28 @@ void update() {
         player2.y -= 10;
     }
 
-    else if (player2.y < SCREEN_HEIGHT - 64 && currentKeyStates[SDL_SCANCODE_DOWN]) {
+    if (player2.y < SCREEN_HEIGHT - 64 && currentKeyStates[SDL_SCANCODE_DOWN]) {
         player2.y += 10;
     }
+
+    if (ball.x > SCREEN_WIDTH + 32 || ball.x < -32)
+    {
+        ball.x = SCREEN_WIDTH / 2 - 32;
+        ball.y = SCREEN_HEIGHT / 2 - 32;
+    }
+
+    if (ball.y < 0 || ball.y > SCREEN_HEIGHT - 32)
+    {
+        ballVelocityY *= -1;
+    }
+
+    if (hasCollision(player1, ball) || hasCollision(player2, ball))
+    {
+        ballVelocityX *= -1;
+    }
+    
+    ball.x += ballVelocityX;
+    ball.y += ballVelocityY;
 }
 
 // Function to render graphics
@@ -78,6 +106,24 @@ void capFrameRate(Uint32 frameStartTime) {
     }
 }
 
+void initialize() {
+
+    player1.x = 16;
+    player1.y = SCREEN_HEIGHT / 2 - 64;
+    player1.w = 16;
+    player1.h = 64;
+
+    player2.x = SCREEN_WIDTH - 32;
+    player2.y = SCREEN_HEIGHT / 2 - 64;
+    player2.w = 16;
+    player2.h = 64;
+
+    ball.x = SCREEN_WIDTH / 2 - 32;
+    ball.y = SCREEN_HEIGHT / 2 - 32;
+    ball.w = 32;
+    ball.h = 32;
+}
+
 #undef main
 
 int main() {
@@ -101,21 +147,8 @@ int main() {
         SDL_Quit();
         return 1;
     }
-
-    player1.x = 16;
-    player1.y = SCREEN_HEIGHT / 2 - 64;
-    player1.w = 16;
-    player1.h = 64;
-
-    player2.x = SCREEN_WIDTH - 32;
-    player2.y = SCREEN_HEIGHT / 2 - 64;
-    player2.w = 16;
-    player2.h = 64;
-
-    ball.x = SCREEN_WIDTH / 2 - 32;
-    ball.y = SCREEN_HEIGHT / 2 - 32;
-    ball.w = 32;
-    ball.h = 32;
+    
+    initialize();
 
     while (true) {
         
