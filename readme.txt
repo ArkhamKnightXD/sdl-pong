@@ -6,3 +6,7 @@ actual sdl version use: https://github.com/libsdl-org/SDL/releases/download/rele
 
 To compile use this command: g++ -Llib -o game  main.cpp -lSDL2
 To run: ./game
+
+To build and run automatically:
+powershell: ./run 
+bash: ./run.bash  
