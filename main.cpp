@@ -47,7 +47,7 @@ void update(float deltaTime) {
         player1.y -= playerSpeed * deltaTime;
     }
 
-    else if (player1.y < SCREEN_HEIGHT - 64 && currentKeyStates[SDL_SCANCODE_S]) {
+    else if (player1.y < SCREEN_HEIGHT - 74 && currentKeyStates[SDL_SCANCODE_S]) {
         player1.y += playerSpeed * deltaTime;
     }
 
@@ -55,7 +55,7 @@ void update(float deltaTime) {
         player2.y -= playerSpeed * deltaTime;
     }
 
-    if (player2.y < SCREEN_HEIGHT - 64 && currentKeyStates[SDL_SCANCODE_DOWN]) {
+    if (player2.y < SCREEN_HEIGHT - 74 && currentKeyStates[SDL_SCANCODE_DOWN]) {
         player2.y += playerSpeed * deltaTime;
     }
 
