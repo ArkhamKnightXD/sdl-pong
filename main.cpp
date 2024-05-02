@@ -131,20 +131,11 @@ int main() {
         return 1;
     }
     
-    player1.x = 16;
-    player1.y = SCREEN_HEIGHT / 2 - 64;
-    player1.w = 16;
-    player1.h = 64;
+    player1 = {16, SCREEN_HEIGHT / 2 - 64, 16 , 74};
 
-    player2.x = SCREEN_WIDTH - 32;
-    player2.y = SCREEN_HEIGHT / 2 - 64;
-    player2.w = 16;
-    player2.h = 64;
+    player2 = {SCREEN_WIDTH - 32, SCREEN_HEIGHT / 2 - 64, 16 , 74};
 
-    ball.x = SCREEN_WIDTH / 2 - 32;
-    ball.y = SCREEN_HEIGHT / 2 - 32;
-    ball.w = 32;
-    ball.h = 32;
+    ball = {SCREEN_WIDTH / 2 - 32, SCREEN_HEIGHT / 2 - 32, 32 , 32};
 
     Uint32 previousFrameTime = SDL_GetTicks();
     Uint32 currentFrameTime = previousFrameTime;
