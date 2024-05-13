@@ -13,7 +13,9 @@ int ballVelocityY = 400;
 
 const int SCREEN_WIDTH = 960;
 const int SCREEN_HEIGHT = 544;
-const int FRAME_RATE = 60; // Desired frame rate (frames per second)
+
+// Desired frame rate (frames per second)
+// const int FRAME_RATE = 60; 
 
 // Function to handle events
 void handleEvents() {
@@ -47,7 +49,7 @@ void update(float deltaTime) {
         player1.y -= playerSpeed * deltaTime;
     }
 
-    else if (player1.y < SCREEN_HEIGHT - 64 && currentKeyStates[SDL_SCANCODE_S]) {
+    else if (player1.y < SCREEN_HEIGHT - player1.h && currentKeyStates[SDL_SCANCODE_S]) {
         player1.y += playerSpeed * deltaTime;
     }
 
@@ -55,17 +57,20 @@ void update(float deltaTime) {
         player2.y -= playerSpeed * deltaTime;
     }
 
-    if (player2.y < SCREEN_HEIGHT - 64 && currentKeyStates[SDL_SCANCODE_DOWN]) {
+    if (player2.y < SCREEN_HEIGHT - player2.h && currentKeyStates[SDL_SCANCODE_DOWN]) {
         player2.y += playerSpeed * deltaTime;
     }
 
-    if (ball.x > SCREEN_WIDTH + 32 || ball.x < -32)
+    if (ball.x > SCREEN_WIDTH + ball.w || ball.x < -ball.w)
     {
-        ball.x = SCREEN_WIDTH / 2 - 32;
-        ball.y = SCREEN_HEIGHT / 2 - 32;
+        ball.x = SCREEN_WIDTH / 2 - ball.w;
+        ball.y = SCREEN_HEIGHT / 2 - ball.h;
+
+        ballVelocityX *= -1;
+        ballVelocityY *= -1;
     }
 
-    if (ball.y < 0 || ball.y > SCREEN_HEIGHT - 32)
+    if (ball.y < 0 || ball.y > SCREEN_HEIGHT - ball.h)
     {
         ballVelocityY *= -1;
     }
@@ -90,6 +95,9 @@ void render() {
 
     // Render the rectangle
     SDL_RenderFillRect(renderer, &player1);
+
+    SDL_RenderDrawLine(renderer, SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2, SCREEN_HEIGHT);
+
     SDL_RenderFillRect(renderer, &ball);
     SDL_RenderFillRect(renderer, &player2);
 
@@ -98,14 +106,14 @@ void render() {
 }
 
 // Function to cap frame rate
-void capFrameRate(Uint32 frameStartTime) {
+// void capFrameRate(Uint32 frameStartTime) {
 
-    Uint32 frameTime = SDL_GetTicks() - frameStartTime;
+//     Uint32 frameTime = SDL_GetTicks() - frameStartTime;
     
-    if (frameTime < 1000 / FRAME_RATE) {
-        SDL_Delay(1000 / FRAME_RATE - frameTime);
-    }
-}
+//     if (frameTime < 1000 / FRAME_RATE) {
+//         SDL_Delay(1000 / FRAME_RATE - frameTime);
+//     }
+// }
 
 #undef main
 
@@ -131,11 +139,10 @@ int main() {
         return 1;
     }
     
-    player1 = {16, SCREEN_HEIGHT / 2 - 64, 16 , 74};
+    player1 = {16, SCREEN_HEIGHT / 2 - 64, 16, 74};
+    player2 = {SCREEN_WIDTH - 32, SCREEN_HEIGHT / 2 - 64, 16, 74};
 
-    player2 = {SCREEN_WIDTH - 32, SCREEN_HEIGHT / 2 - 64, 16 , 74};
-
-    ball = {SCREEN_WIDTH / 2 - 32, SCREEN_HEIGHT / 2 - 32, 32 , 32};
+    ball = {SCREEN_WIDTH / 2 - 26, SCREEN_HEIGHT / 2 - 26, 26, 26};
 
     Uint32 previousFrameTime = SDL_GetTicks();
     Uint32 currentFrameTime = previousFrameTime;
