@@ -14,10 +14,6 @@ int ballVelocityY = 400;
 const int SCREEN_WIDTH = 960;
 const int SCREEN_HEIGHT = 544;
 
-// Desired frame rate (frames per second)
-// const int FRAME_RATE = 60; 
-
-// Function to handle events
 void handleEvents() {
 
     SDL_Event event;
@@ -84,16 +80,13 @@ void update(float deltaTime) {
     ball.y += ballVelocityY * deltaTime;
 }
 
-// Function to render graphics
 void render() {
-    // Clear the renderer
+    
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    // Set drawing color to white
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-    // Render the rectangle
     SDL_RenderFillRect(renderer, &player1);
 
     SDL_RenderDrawLine(renderer, SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2, SCREEN_HEIGHT);
@@ -101,19 +94,8 @@ void render() {
     SDL_RenderFillRect(renderer, &ball);
     SDL_RenderFillRect(renderer, &player2);
 
-    // Present the renderer
     SDL_RenderPresent(renderer);
 }
-
-// Function to cap frame rate
-// void capFrameRate(Uint32 frameStartTime) {
-
-//     Uint32 frameTime = SDL_GetTicks() - frameStartTime;
-    
-//     if (frameTime < 1000 / FRAME_RATE) {
-//         SDL_Delay(1000 / FRAME_RATE - frameTime);
-//     }
-// }
 
 #undef main
 
@@ -161,8 +143,6 @@ int main() {
         handleEvents();
         update(deltaTime);
         render();
-
-        // capFrameRate(currentFrameTime);
     }
 
     SDL_DestroyRenderer(renderer);
