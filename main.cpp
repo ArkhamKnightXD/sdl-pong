@@ -3,6 +3,10 @@
 
 SDL_Window* window = nullptr;
 SDL_Renderer* renderer = nullptr;
+
+const int SCREEN_WIDTH = 960;
+const int SCREEN_HEIGHT = 544;
+
 SDL_Rect player1;
 SDL_Rect player2;
 SDL_Rect ball;
@@ -11,8 +15,12 @@ int playerSpeed = 800;
 int ballVelocityX = 400;
 int ballVelocityY = 400;
 
-const int SCREEN_WIDTH = 960;
-const int SCREEN_HEIGHT = 544;
+void quitGame() {
+
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+}
 
 void handleEvents() {
 
@@ -22,9 +30,7 @@ void handleEvents() {
 
         if (event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE) {
             
-            SDL_DestroyRenderer(renderer);
-            SDL_DestroyWindow(window);
-            SDL_Quit();
+            quitGame();
             exit(0);
         }
     }
@@ -36,7 +42,6 @@ bool hasCollision(SDL_Rect player, SDL_Rect ball) {
             player.y < ball.y + ball.h && player.y + player.h > ball.y;
 } 
 
-// Function to update rectangle movement.
 void update(float deltaTime) {
 
     const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
@@ -133,11 +138,7 @@ int main() {
     while (true) {
         
         currentFrameTime = SDL_GetTicks();
-
-    // Calculate delta time in seconds
         deltaTime = (currentFrameTime - previousFrameTime) / 1000.0f; // Convert to seconds
-
-    // Update the previous frame time for the next iteration
         previousFrameTime = currentFrameTime;
 
         handleEvents();
@@ -145,9 +146,6 @@ int main() {
         render();
     }
 
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-
+    quitGame();
     return 0;
 }
