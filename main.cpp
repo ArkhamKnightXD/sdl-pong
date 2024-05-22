@@ -7,9 +7,9 @@ SDL_Renderer* renderer = nullptr;
 const int SCREEN_WIDTH = 960;
 const int SCREEN_HEIGHT = 544;
 
-SDL_Rect player1;
-SDL_Rect player2;
-SDL_Rect ball;
+SDL_Rect player1 = {16, SCREEN_HEIGHT / 2 - 64, 16, 74};
+SDL_Rect player2 = {SCREEN_WIDTH - 32, SCREEN_HEIGHT / 2 - 64, 16, 74};
+SDL_Rect ball = {SCREEN_WIDTH / 2 - 26, SCREEN_HEIGHT / 2 - 26, 26, 26};
 
 int playerSpeed = 800;
 int ballVelocityX = 400;
@@ -126,11 +126,6 @@ int main() {
         return 1;
     }
     
-    player1 = {16, SCREEN_HEIGHT / 2 - 64, 16, 74};
-    player2 = {SCREEN_WIDTH - 32, SCREEN_HEIGHT / 2 - 64, 16, 74};
-
-    ball = {SCREEN_WIDTH / 2 - 26, SCREEN_HEIGHT / 2 - 26, 26, 26};
-
     Uint32 previousFrameTime = SDL_GetTicks();
     Uint32 currentFrameTime = previousFrameTime;
     float deltaTime = 0.0f;
