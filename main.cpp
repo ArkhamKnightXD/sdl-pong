@@ -15,6 +15,8 @@ int playerSpeed = 800;
 int ballVelocityX = 400;
 int ballVelocityY = 400;
 
+bool isAutoPlayMode = true;
+
 void quitGame() {
 
     SDL_DestroyRenderer(renderer);
@@ -52,6 +54,16 @@ void update(float deltaTime) {
 
     else if (player1.y < SCREEN_HEIGHT - player1.h && currentKeyStates[SDL_SCANCODE_S]) {
         player1.y += playerSpeed * deltaTime;
+    }
+
+    if (currentKeyStates[SDL_SCANCODE_D])
+    {
+        isAutoPlayMode = !isAutoPlayMode;
+    }
+
+    if (isAutoPlayMode && ball.y < SCREEN_HEIGHT - player2.h)
+    {
+        player2.y = ball.y;
     }
 
     if (player2.y > 0 && currentKeyStates[SDL_SCANCODE_UP]) {
